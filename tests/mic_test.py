@@ -12,23 +12,20 @@ stream = p.open(format=pyaudio.paInt16,
                 rate=16000,
                 input=True,
                 frames_per_buffer=8192)
-output_file_path = "./recognized_text.txt"
 
-with open(output_file_path, "w") as output_file:
-    print("Listening for speech. Say 'Terminate' to stop.")
+print("Listening for speech. Say 'Terminate' to stop.")
 
-    while True:
-        data = stream.read(4096)
-        if rec.AcceptWaveform(data):
-            result = json.loads(rec.Result())
-            recognized_text = result['text']
-            
-            output_file.write(recognized_text + "\n")
-            print(recognized_text)
-            
-            if "terminate" in recognized_text.lower():
-                print("Termination keyword detected. Stopping...")
-                break
+while True:
+    data = stream.read(4096)
+    if rec.AcceptWaveform(data):
+        result = json.loads(rec.Result())
+        recognized_text = result['text']
+        
+        print(recognized_text)
+        
+        if "terminate" in recognized_text.lower():
+            print("Termination keyword detected. Stopping...")
+            break
 
 stream.stop_stream()
 stream.close()

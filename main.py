@@ -1,16 +1,9 @@
-#!/usr/bin/env python3
 from modules.chat import Chatbot
 from modules.voice import VoiceInterface
 from modules.audio import AudioFile
-from dotenv import load_dotenv
-
-import os
-
-load_dotenv()
-
-interact_mode = "voice"
 
 def main():
+	interact_mode = "voice"
 	bot = Chatbot(system_message_file="config/system_message.txt")
 
 	print(f"Interaction Mode: {interact_mode}")
@@ -24,10 +17,10 @@ def main():
 			
 		case "voice":
 			voice = VoiceInterface("vosk-model")
-			trigger_keyword = "ali" # vosk hears 'ollie' as 'ali'
+			triggers = ["ali", "bailey"] # trigger words that somewhat equate to 'ollie' with vosk
 			
 			while True:
-				detected = voice.listen_for_keyword(keyword=trigger_keyword)
+				detected = voice.listen_for_keywords(triggers)
 				print(detected)
 				if detected:
 					AudioFile("audio/confirm.wav").play()
