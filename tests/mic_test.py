@@ -12,7 +12,7 @@ stream = p.open(format=pyaudio.paInt16,
                 rate=16000,
                 input=True,
                 frames_per_buffer=8192)
-output_file_path = "recognized_text.txt"
+output_file_path = "./recognized_text.txt"
 
 with open(output_file_path, "w") as output_file:
     print("Listening for speech. Say 'Terminate' to stop.")
