@@ -16,14 +16,14 @@ def main():
 				bot.chat(user_message)
 			
 		case "voice":
-			voice = VoiceInterface("vosk-model")
-			triggers = ["ali", "bailey"] # trigger words that somewhat equate to 'ollie' with vosk
+			voice = VoiceInterface("vosk-model-large")
+			triggers = "ali"
 			
 			while True:
-				detected = voice.listen_for_keywords(triggers)
+				detected = voice.listen_for_keyword(triggers)
 				print(detected)
 				if detected:
-					AudioFile("audio/confirm.wav").play()
+					#AudioFile("audio/confirm.wav").play()
 
 					print("Keyword detected. Now listening for your command...")
 

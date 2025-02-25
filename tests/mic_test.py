@@ -2,7 +2,7 @@ import vosk
 import pyaudio
 import json
 
-model_path = "vosk-model"
+model_path = "vosk-model-large"
 
 model = vosk.Model(model_path)
 rec = vosk.KaldiRecognizer(model, 16000)

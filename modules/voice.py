@@ -3,6 +3,7 @@ import pyaudio
 import pyttsx3
 import time
 from vosk import Model, KaldiRecognizer
+from modules.audio import AudioFile
 
 class VoiceInterface:
     def __init__(self, vosk_model_path):
@@ -18,10 +19,8 @@ class VoiceInterface:
         self.stream.start_stream()
         self.tts_engine = pyttsx3.init()
 
-    def listen_for_keywords(self, keywords):
-        print("Listening for keywords...")
-        
-        lower_keywords = [kw.lower() for kw in keywords]
+    def listen_for_keyword(self, keyword):
+        print("Listening for keyword...")
 
         while True:
             data = self.stream.read(4000, exception_on_overflow=False)
@@ -30,25 +29,25 @@ class VoiceInterface:
                 result = json.loads(self.recognizer.Result())
                 text = result.get("text", "").lower()
 
-                for keyword in lower_keywords:
-                    if keyword in text:
-                        print(f"Keyword '{keyword}' detected in final result: {text}")
-                        self.recognizer.Reset()
-                        return text
+                if keyword.lower() in text:
+                    print(f"Keyword '{keyword}' detected in final result: {text}")
+                    self.recognizer.Reset()
+                    return text
             else:
                 partial_result = json.loads(self.recognizer.PartialResult())
                 partial_text = partial_result.get("partial", "").lower()
 
-                for keyword in lower_keywords:
-                    if keyword in partial_text:
-                        print(f"Keyword '{keyword}' detected in partial result: {partial_text}")
-                        self.recognizer.Reset()
-                        return partial_text
+                if keyword.lower() in partial_text:
+                    print(f"Keyword '{keyword}' detected in partial result: {partial_text}")
+                    self.recognizer.Reset()
+                    return partial_text
 
             time.sleep(0.01)
 
     def get_command_after_keyword(self, timeout=5):
         print("Listening for command after keyword...")
+        AudioFile("audio/listening.wav").play()
+
         result_text = ""
         start_time = time.time()
 
