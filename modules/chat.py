@@ -1,9 +1,12 @@
 import ollama
 
 class Chatbot:
-    def __init__(self, model="llama3.2", functions = {}, system_message_file="system_message.txt"):
+    def __init__(self, model="llama3.1", functions = {}, system_message_file="system_message.txt"):
         self.model: str = model
         self.available_functions: dict = functions
+        self.model_options = {
+            "temperature": 0
+        }
 
         try:
             with open(system_message_file, "r") as f:
@@ -23,9 +26,9 @@ class Chatbot:
         try:
             response: ollama.ChatResponse = ollama.chat(
                 model=self.model, 
-                messages=messages, 
-                stream=False,
-                tools=self.available_functions.values()
+                messages=messages,
+                tools=self.available_functions.values(),
+                options=self.model_options
             )
             
             full_response = response.message.content
@@ -35,17 +38,10 @@ class Chatbot:
                     if function_to_call := self.available_functions.get(tool.function.name):
                         output = function_to_call(**tool.function.arguments)
 
-                        #print('Calling function:', tool.function.name)
-                        #print('Arguments:', tool.function.arguments)
-                        #print('Function output:', output)
-                    else:
-                        pass
-                        #print('Function', tool.function.name, 'not found')
-
-                messages.append(response.message)
+                #messages.append(response.message)
                 messages.append({'role': 'tool', 'content': str(output), 'name': tool.function.name})
 
-                final_response = ollama.chat('llama3.1', messages=messages)
+                final_response = ollama.chat(self.model, messages=messages, options=self.model_options)
                 full_response = final_response.message.content
 
             print("Chatbot:", full_response)

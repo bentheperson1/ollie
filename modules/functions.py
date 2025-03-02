@@ -18,7 +18,7 @@ def register(func):
 spotify_client_id = os.getenv("spotify_client_id")
 spotify_secret = os.getenv("spotify_secret")
 spotify_redirect_uri = os.getenv("spotify_redirect_uri")
-spotify_scope = "user-modify-playback-state,user-read-playback-state"
+spotify_scope = "user-modify-playback-state,user-read-playback-state,playlist-read-private"
 
 spotify = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=spotify_client_id,
                                                client_secret=spotify_secret,
@@ -31,8 +31,8 @@ weather_units = "imperial"
 
 @register
 def play_spotify_track_by_name(name: str):
-    results = spotify.search(q=name, type='track', limit=1)
-
+    results = spotify.search(q=name, type='track,artist', limit=1)
+    
     if results['tracks']['items']:
         track = results['tracks']['items'][0]
         track_uri = track['uri']
@@ -47,6 +47,57 @@ def play_spotify_track_by_name(name: str):
         return "Track Not Found"
     
     return f"Successfully Played {name}"
+
+@register
+def play_spotify_playlist_on_shuffle(playlist_name: str):
+    playlists = spotify.current_user_playlists()
+    
+    target_playlist = None
+
+    for playlist in playlists['items']:
+        if playlist['name'].lower() == playlist_name.lower():
+            target_playlist = playlist
+            break
+
+    if not target_playlist:
+        return f"Playlist '{playlist_name}' not found."
+
+    playlist_uri = target_playlist['uri']
+    
+    try:
+        spotify.start_playback(context_uri=playlist_uri)
+        spotify.shuffle(True)
+
+        return f"Started playing playlist: {playlist_name}"
+    except spotipy.SpotifyException as e:
+        return f"Error playing playlist: {e}"
+
+@register
+def skip_spotify_song():
+    try:
+        spotify.next_track()
+
+        return "Skipped current song"
+    except spotipy.SpotifyException as e:
+        return f"Error skipping song: {e}"
+
+@register
+def pause_spotify_song():
+    try:
+        spotify.pause_playback()
+
+        return "Paused spotify playback"
+    except spotipy.SpotifyException as e:
+        return f"Error pausing song: {e}"
+
+@register
+def play_resume_spotify_song():
+    try:
+        spotify.start_playback()
+
+        return "Started spotify playback"
+    except spotipy.SpotifyException as e:
+        return f"Error playing song: {e}"
 
 @register
 def add_two_numbers(a: float, b: float) -> float:

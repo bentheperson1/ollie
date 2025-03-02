@@ -1,9 +1,9 @@
 import json
 import pyaudio
-import pyttsx3
 import time
 from vosk import Model, KaldiRecognizer, SetLogLevel
 from modules.audio import AudioFile
+from yapper import PiperSpeaker, PiperVoiceUS
 
 class VoiceInterface:
     def __init__(self, vosk_model_path):
@@ -21,7 +21,7 @@ class VoiceInterface:
                                       input=True,
                                       frames_per_buffer=4000)
         self.stream.start_stream()
-        self.tts_engine = pyttsx3.init()
+        self.tts_engine = PiperSpeaker(voice=PiperVoiceUS.HFC_MALE)
 
     def listen_for_keyword(self, keyword):
         print("Listening for keyword...")
@@ -73,4 +73,4 @@ class VoiceInterface:
 
     def speak_text(self, text):
         self.tts_engine.say(text)
-        self.tts_engine.runAndWait()
+    
