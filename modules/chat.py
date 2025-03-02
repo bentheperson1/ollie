@@ -1,6 +1,6 @@
 import ollama
 
-class Chatbot:
+class ChatInterface:
     def __init__(self, model="llama3.1", functions = {}, system_message_file="system_message.txt"):
         self.model: str = model
         self.available_functions: dict = functions
@@ -44,7 +44,7 @@ class Chatbot:
                 final_response = ollama.chat(self.model, messages=messages, options=self.model_options)
                 full_response = final_response.message.content
 
-            print("Chatbot:", full_response)
+            print("Ollie:", full_response)
             return full_response
         except Exception as e:
             error_message = f"Error communicating with Ollama: {e}"

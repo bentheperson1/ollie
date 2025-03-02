@@ -1,11 +1,20 @@
-from modules.chat import Chatbot
+from modules.chat import ChatInterface
 from modules.voice import VoiceInterface
 from modules.audio import AudioFile
-from modules.functions import bot_functions
+from plugins.plugin_register import load_active_plugins, bot_functions
+from dotenv import load_dotenv
+from yapper import PiperVoiceUS
 
-interact_mode = "text"
-bot = Chatbot(system_message_file="config/system_message.txt", functions=bot_functions)
+import os
 
+load_dotenv()
+
+load_active_plugins()
+
+interact_mode = "voice"
+bot = ChatInterface(system_message_file="config/system_message.txt", functions=bot_functions)
+
+os.system('cls' if os.name == 'nt' else 'clear')
 print("Ollie initialized successfully")
 print(f"Interaction Mode: {interact_mode}")
 
@@ -19,7 +28,7 @@ match interact_mode:
 			bot.chat(user_message)
 		
 	case "voice":
-		voice = VoiceInterface("vosk-model-large")
+		voice = VoiceInterface("vosk-model-large", PiperVoiceUS.HFC_MALE)
 		trigger = "curse"
 
 		AudioFile("audio/startup.wav").play()

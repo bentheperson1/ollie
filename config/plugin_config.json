@@ -1,0 +1,9 @@
+{
+    "plugins": {
+        "spotify": true,
+        "weather": true,
+        "math": true,
+        "time": true,
+        "utilities": true
+    }
+}
