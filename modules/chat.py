@@ -38,7 +38,7 @@ class ChatInterface:
                     if function_to_call := self.available_functions.get(tool.function.name):
                         output = function_to_call(**tool.function.arguments)
 
-                #messages.append(response.message)
+                messages.append(response.message)
                 messages.append({'role': 'tool', 'content': str(output), 'name': tool.function.name})
 
                 final_response = ollama.chat(self.model, messages=messages, options=self.model_options)

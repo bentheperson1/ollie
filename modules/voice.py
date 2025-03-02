@@ -71,7 +71,7 @@ class VoiceInterface:
             except Exception as e:
                 print(f"An error occurred: {e}")
         else:
-            print("Large English Vosk model already present.")
+            print("Vosk model already present.")
 
     def listen_for_keyword(self, keyword):
         print("Listening for keyword...")

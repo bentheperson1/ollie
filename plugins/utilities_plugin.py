@@ -12,5 +12,5 @@ def launch_calculator():
     return "Opened Calculator on Desktop"
 
 @register(plugin="system")
-def terminate_app():
+def terminate_close_shutdown_end_app():
     exit(0)
