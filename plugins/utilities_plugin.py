@@ -2,13 +2,13 @@ import subprocess
 from plugins.plugin_register import register
 
 @register(plugin="utilities")
-def launch_notepad():
-    subprocess.run("notepad")
+def open_notepad_on_desktop():
+    subprocess.run("notepad", check=True)
     return "Opened Notepad on Desktop"
 
 @register(plugin="utilities")
-def launch_calculator():
-    subprocess.run("calc")
+def open_calculator_on_desktop():
+    subprocess.run("calc", check=True)
     return "Opened Calculator on Desktop"
 
 @register(plugin="system")

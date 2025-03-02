@@ -9,12 +9,13 @@ import os
 
 load_dotenv()
 
+os.system('cls' if os.name == 'nt' else 'clear')
+
 load_active_plugins()
 
-interact_mode = "voice"
+interact_mode = "text"
 bot = ChatInterface(system_message_file="config/system_message.txt", functions=bot_functions)
 
-os.system('cls' if os.name == 'nt' else 'clear')
 print("Ollie initialized successfully")
 print(f"Interaction Mode: {interact_mode}")
 

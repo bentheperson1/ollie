@@ -4,6 +4,7 @@
         "weather": true,
         "math": true,
         "time": true,
-        "utilities": true
+        "utilities": true,
+        "hue": true
     }
 }
