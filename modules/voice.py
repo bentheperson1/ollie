@@ -2,11 +2,15 @@ import json
 import pyaudio
 import pyttsx3
 import time
-from vosk import Model, KaldiRecognizer
+from vosk import Model, KaldiRecognizer, SetLogLevel
 from modules.audio import AudioFile
 
 class VoiceInterface:
     def __init__(self, vosk_model_path):
+        SetLogLevel(-1)
+        
+        print("Starting voice module...")
+
         self.model = Model(vosk_model_path)
         
         self.recognizer = KaldiRecognizer(self.model, 16000)

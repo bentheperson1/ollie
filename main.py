@@ -1,38 +1,33 @@
 from modules.chat import Chatbot
 from modules.voice import VoiceInterface
-from modules.audio import AudioFile
+from modules.functions import bot_functions
 
-def main():
-	interact_mode = "voice"
-	bot = Chatbot(system_message_file="config/system_message.txt")
+interact_mode = "voice"
+bot = Chatbot(system_message_file="config/system_message.txt", functions=bot_functions)
 
-	print(f"Interaction Mode: {interact_mode}")
-	
-	match interact_mode:
-		case "text":
-			while True:
-				user_message = input("You: ")
+print("Ollie initialized successfully")
+print(f"Interaction Mode: {interact_mode}")
 
-				bot.chat(user_message)
-			
-		case "voice":
-			voice = VoiceInterface("vosk-model-large")
-			triggers = "ali"
-			
-			while True:
-				detected = voice.listen_for_keyword(triggers)
-				print(detected)
-				if detected:
-					#AudioFile("audio/confirm.wav").play()
+match interact_mode:
+	case "text":
+		while True:
+			user_message = input("You: ")
 
-					print("Keyword detected. Now listening for your command...")
+			bot.chat(user_message)
+		
+	case "voice":
+		voice = VoiceInterface("vosk-model-large")
+		trigger = "curse"
+		
+		while True:
+			detected = voice.listen_for_keyword(trigger)
 
-					command = voice.get_command_after_keyword()
-					if command:
-						response = bot.chat(command)
-						voice.speak_text(response)
-					else:
-						print("No command detected after keyword.")
+			if detected:
+				print("Keyword detected. Now listening for your command...")
 
-if __name__ == "__main__":
-	main()
+				command = voice.get_command_after_keyword()
+				if command:
+					response = bot.chat(command)
+					voice.speak_text(response)
+				else:
+					print("No command detected after keyword.")
