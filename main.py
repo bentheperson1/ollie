@@ -13,8 +13,8 @@ os.system('cls' if os.name == 'nt' else 'clear')
 
 load_active_plugins()
 
-interact_mode = "text"
-bot = ChatInterface(system_message_file="config/system_message.txt", functions=bot_functions)
+interact_mode = "voice"
+bot = ChatInterface(model="llama3.1", system_message_file="config/system_message.txt", functions=bot_functions)
 
 print("Ollie initialized successfully")
 print(f"Interaction Mode: {interact_mode}")
@@ -29,7 +29,7 @@ match interact_mode:
 			bot.chat(user_message)
 		
 	case "voice":
-		voice = VoiceInterface("vosk-model-large", PiperVoiceUS.HFC_MALE)
+		voice = VoiceInterface("vosk-model-large", PiperVoiceUS.LESSAC)
 		trigger = "curse"
 
 		AudioFile("audio/startup.wav").play()
