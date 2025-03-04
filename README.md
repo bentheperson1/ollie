@@ -78,7 +78,22 @@ To run the script in text mode:
 python main.py --mode text
 ```
 
+## Plugins
+
+To create a plugin, all you have to do is import the `plugin_register` module from the `plugins` folder and use the `@register(plugin='plugin name')` decorator on the desired function. The `plugin` argument on the decorator corresponds to the `plugin_config.json` file that allows you to enable/disable plugins within Ollie.
+
+### In-Code Example
+```py
+import datetime
+from plugins.plugin_register import register
+
+# creates a function to return the current time and registers it to the 'time' plugin
+@register(plugin="time")
+def current_time():
+    return str(datetime.datetime.now())
+```
+
 ## Additional Notes
 
 **Environment Variables:**  
-  The script uses `dotenv` to load sensitive environment variables. Make sure you have a `.env` file configured based on the example file provided.
+  Ollie uses `dotenv` to load sensitive environment variables. Make sure you have a `.env` file configured based on the example file provided.
