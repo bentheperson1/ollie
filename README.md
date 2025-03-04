@@ -20,7 +20,7 @@ Ollie is an AI personal assistant that runs entirely on your device. It supports
 3. **Clone the repository:**
     ```bash
     git clone https://github.com/bentheperson1/ollie.git
-    cd OnDeviceAI
+    cd ollie
     ```
 
 4. **Install Dependencies:**
@@ -35,7 +35,7 @@ Ollie is an AI personal assistant that runs entirely on your device. It supports
 python main.py
 ```
 
-This command will start the script in voice mode using the default settings.
+This command will start Ollie in voice mode using the default settings.
 
 ## Command-Line Arguments
 
@@ -64,7 +64,7 @@ The following arguments are available:
 
 ### Voice Interaction Mode
 
-To run the script in voice mode with a custom trigger and voice configuration:
+To run Ollie in voice mode with a custom trigger and voice configuration:
 
 ```bash
 python main.py --mode voice --trigger "activate" --voice_config CUSTOM_CONFIG
@@ -72,7 +72,7 @@ python main.py --mode voice --trigger "activate" --voice_config CUSTOM_CONFIG
 
 ### Text Interaction Mode
 
-To run the script in text mode:
+To run Ollie in text mode:
 
 ```bash
 python main.py --mode text
